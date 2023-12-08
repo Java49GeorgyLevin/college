@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Entity
-@Table(name = "fj-students-lecturers")
+@Table(name = "students_lecturers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 @Getter

@@ -2,9 +2,9 @@ package telran.college.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import telran.college.dro.SubjectType;
+import telran.college.dto.SubjectType;
 @Entity
-@Table(name="fj-subjects")
+@Table(name="subjects")
 @Getter
 @NoArgsConstructor
 public class Subject {

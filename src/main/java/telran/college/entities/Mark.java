@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
-@Table(name = "fj-marks")
+@Table(name = "marks")
 public class Mark {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
