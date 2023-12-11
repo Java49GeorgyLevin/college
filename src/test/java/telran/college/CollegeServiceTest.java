@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,18 @@ CollegeService collegeService;
 	}
 	
 	//HW-p4
-	//TODO
 	@Test
 	void namesCitiesByMonthTest() {
-		List<NameCityPhone> namePhone = collegeService.namesCitiesByMonth(Months.JAN);
-		namePhone.forEach(nP -> System.out.printf("%s, %s, %s\n", nP.getName(), nP.getPhone(), nP.getBirthDate()));
+		List<NameCityPhone> nameCity = collegeService.namesCitiesByMonth(10);
+		String[] students = {"Vasya", "Yakob"};
+		String[] cities = {"Rehovot", "Rehovot"};
+		NameCityPhone[] arNameCity = nameCity.toArray(NameCityPhone[]::new);
+		
+		IntStream.range(0, students.length).forEach(i -> {
+			assertEquals(students[i], arNameCity[i].getName());
+			assertEquals(cities[i], arNameCity[i].getCity());
+			}		
+		);
 	}
 	
 	//HW-p5

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import telran.college.dto.LecturerHours;
-import telran.college.dto.Months;
 import telran.college.dto.NameCityPhone;
 import telran.college.dto.StudentMark;
 import telran.college.dto.SubjectScore;
@@ -39,7 +38,7 @@ public class CollegeServiceImpl implements CollegeService {
 	}
 
 	@Override
-	public List<NameCityPhone> namesCitiesByMonth(Months month) {
+	public List<NameCityPhone> namesCitiesByMonth(int month) {
 		return studentRepo.getNamesCitiesByMonth(month);
 	}
 

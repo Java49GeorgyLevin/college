@@ -26,14 +26,11 @@ public interface StudentRepo extends JpaRepository<Student, Long> {
 			+ "where score < :score order by st.name",
 			nativeQuery=true)
 	List<NameCityPhone> getNameCityUnderachieving(float score);
-	
-	//TODO
-	@Query(value="select name, phone as phone, birth_date as birthDate from students_lecturers "
-//			+ "where dType='Student' "
-			+ "where DATEPART(month, birth_date) = 10 ",
+	@Query(value="select name, city from students_lecturers sl "
+			+ "where dType='Student' "
+			+ "AND extract(month from birth_date) = :month ",
 			nativeQuery=true)
-	List<NameCityPhone> getNamesCitiesByMonth(Months month);
-	
+	List<NameCityPhone> getNamesCitiesByMonth(int month);	
 	@Query(value="select sb.name as subject, score as score "
 			+ JOIN_ALL+
 			"where st.name =:nameStudent order by sb.name",

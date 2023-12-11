@@ -8,7 +8,7 @@ public interface CollegeService {
 	List<StudentMark> studentsAvgMarks();
 	List<LecturerHours> lecturersHiScoreHours(int nLecturers);
 	List<NameCityPhone> nameCityUnderachieving(float score);
-	List<NameCityPhone> namesCitiesByMonth(Months month);
+	List<NameCityPhone> namesCitiesByMonth(int month);
 	List<SubjectScore> subjectsScoresbyStudentName(String nameStudent);
 	List<NameCityPhone> lecturersNamesPhonesByCity(String city);
 
