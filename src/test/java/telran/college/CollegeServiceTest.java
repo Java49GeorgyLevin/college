@@ -29,7 +29,7 @@ CollegeService collegeService;
 	void studentsAverageTest() {
 		List<StudentMark> studentsMarks = collegeService.studentsAvgMarks();
 		//HW-p1.1
-		Map<String, Integer> expSet = Map.of("David", 96, "Rivka", 95, "Vasya", 83, "Sara", 80, "Yosef", 78);
+		Map<String, Integer> expSet = Map.of("David", 96, "Rivka", 95, "Vasya", 83, "Sara", 80, "Yosef", 78, "Yakob", 0);
 		studentsMarks.forEach(sm -> assertEquals(expSet.get(sm.getName()), sm.getScore()));
 		assertEquals(expSet.size(), studentsMarks.size());		
 	}

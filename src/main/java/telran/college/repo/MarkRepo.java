@@ -10,9 +10,10 @@ import telran.college.entities.*;
 
 public interface MarkRepo extends JpaRepository<Mark, Long> {
 	
-	@Query("Select student.name as name, round(avg(score)) as score from Mark "
-			+ "group by student.name "
-			+ "order by avg(score) desc")
+	@Query("Select st.name as name, ifnull(round(avg(m.score)), 0) as score from Mark m "
+			+ "right join m.student st "
+			+ "group by name "
+			+ "order by score desc")
 	List<StudentMark> getStudentsAvgMarks();
 	
 	List<SubjectNameScore> findByStudentName(String nameStudent);
