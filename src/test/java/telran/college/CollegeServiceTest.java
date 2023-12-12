@@ -43,9 +43,9 @@ CollegeService collegeService;
 	}
 	//HW-p3
 	@Test
-	void namesCitiesUnderachievingStudentsTest() {
-		List<NameCityPhone> nameCity = collegeService.nameCityUnderachieving(80f);
-		Map<String, String> expMap = Map.of("Sara", "Beersheva", "Vasya", "Rehovot", "Yosef", "Rehovot");
+	void namesCitiesScoresLessStudentsTest() {
+		List<NameCity> nameCity = collegeService.nameCityScoresLess(4);
+		Map<String, String> expMap = Map.of("Rivka", "Lod", "Yakob", "Rehovot", "Yosef", "Rehovot");		
 		nameCity.forEach(nc -> assertEquals(expMap.get(nc.getName()), nc.getCity()));		
 		assertEquals(expMap.size(), nameCity.size());		
 	}
@@ -53,10 +53,10 @@ CollegeService collegeService;
 	//HW-p4
 	@Test
 	void namesCitiesByMonthTest() {
-		List<NameCityPhone> nameCity = collegeService.namesCitiesByMonth(10);
+		List<NameCity> nameCity = collegeService.namesCitiesByMonth(10);
 		String[] students = {"Vasya", "Yakob"};
 		String[] cities = {"Rehovot", "Rehovot"};
-		NameCityPhone[] arNameCity = nameCity.toArray(NameCityPhone[]::new);
+		NameCity[] arNameCity = nameCity.toArray(NameCity[]::new);
 		
 		IntStream.range(0, students.length).forEach(i -> {
 			assertEquals(students[i], arNameCity[i].getName());
@@ -68,19 +68,19 @@ CollegeService collegeService;
 	//HW-p5
 	@Test
 	void subjectsScoresbyStudentNameTest() {
-		List<SubjectScore> subjectsScores = collegeService.subjectsScoresbyStudentName("Vasya");
+		List<SubjectNameScore> subjectsScores = collegeService.subjectsScoresbyStudentName("Vasya");
 		Map<String, Float> expMap = Map.of( "HTML/CSS", 95.0f, 
 		"Java Core", 75.0f,
 		"Java Technologies", 60.0f,
 		"JavaScript", 85.0f,
 		"React", 100.0f);
-		subjectsScores.forEach(sSc -> assertEquals(expMap.get(sSc.getSubject()), sSc.getScore()));
+		subjectsScores.forEach(sSc -> assertEquals(expMap.get(sSc.getSubjectName()), sSc.getScore()));
 		assertEquals(expMap.size(), subjectsScores.size());
 	}
 	//HW-p6
 	@Test
 	void lecturersNamesPhonesByCityTest() {
-		List<NameCityPhone> lecturerNamePhone = collegeService.lecturersNamesPhonesByCity("Jerusalem");
+		List<NamePhone> lecturerNamePhone = collegeService.lecturersNamesPhonesByCity("Jerusalem");
 		Map<String, String> expMap = Map.of("Abraham", "050-1111122", "Mozes", "054-3334567");
 		lecturerNamePhone.forEach(nP -> assertEquals(expMap.get(nP.getName()), nP.getPhone()));
 		assertEquals(expMap.size(), lecturerNamePhone.size());

@@ -4,10 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import telran.college.dto.LecturerHours;
-import telran.college.dto.NameCityPhone;
-import telran.college.dto.StudentMark;
-import telran.college.dto.SubjectScore;
+import telran.college.dto.*;
 import telran.college.repo.*;
 @Service
 @RequiredArgsConstructor
@@ -19,37 +16,37 @@ public class CollegeServiceImpl implements CollegeService {
 
 	@Override
 	public List<String> bestStudentsSubjectType(String type, int nStudents) {
-		return studentRepo.findBestStudentsSubjectType(type, nStudents);
+		return markRepo.findBestStudentsSubjectType(SubjectType.valueOf(type), nStudents);
 	}
 
 	@Override
 	public List<StudentMark> studentsAvgMarks() {		
-		return studentRepo.getStudentsAvgMarks();
+		return markRepo.getStudentsAvgMarks();
 	}
 
 	@Override
 	public List<LecturerHours> lecturersHiScoreHours(int nLecturers) {
-		return lecturerRepo.getLecturersHiScoreHours(nLecturers);
+		return subjectRepo.getLecturersHiScoreHours(nLecturers);
 	}
 
 	@Override
-	public List<NameCityPhone> nameCityUnderachieving(float score) {
-		return studentRepo.getNameCityUnderachieving(score);
+	public List<NameCity> nameCityScoresLess(int score) {
+		return markRepo.getNameCityScoresLess(score);
 	}
 
 	@Override
-	public List<NameCityPhone> namesCitiesByMonth(int month) {
+	public List<NameCity> namesCitiesByMonth(int month) {
 		return studentRepo.getNamesCitiesByMonth(month);
 	}
 
 	@Override
-	public List<SubjectScore> subjectsScoresbyStudentName(String nameStudent) {
-		return studentRepo.getSubjectsScoresbyStudentName(nameStudent);
+	public List<SubjectNameScore> subjectsScoresbyStudentName(String nameStudent) {
+		return markRepo.findByStudentName(nameStudent);
 	}
 
 	@Override
-	public List<NameCityPhone> lecturersNamesPhonesByCity(String city) {
-		return lecturerRepo.getLecturersNamesPhonesByCity(city);
+	public List<NamePhone> lecturersNamesPhonesByCity(String city) {
+		return lecturerRepo.findByCity(city);
 	}
 
 }

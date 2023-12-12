@@ -1,8 +1,7 @@
 package telran.college.dto;
 
-public interface NameCityPhone {
+public interface NameCity {
 	String getName();
 	String getCity();
-	String getPhone();
 
 }
