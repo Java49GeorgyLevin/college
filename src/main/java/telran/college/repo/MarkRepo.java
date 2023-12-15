@@ -27,4 +27,8 @@ public interface MarkRepo extends JpaRepository<Mark, Long> {
 			+ "group by st.name, city having count(m.score) < :score")
 	List<NameCity> getNameCityScoresLess(int score);
 
+	List<Mark> findBySubjectId(long id);
+
+	List<Mark> findByStudentId(long id);
+
 }

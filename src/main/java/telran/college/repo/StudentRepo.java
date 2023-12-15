@@ -14,5 +14,10 @@ public interface StudentRepo extends JpaRepository<Student, Long> {
 	@Query("select st.name as name, st.city as city from Student st "
 			+ "where extract(month from st.birthDate) = :month")
 	List<NameCity> getNamesCitiesByMonth(int month);	
+	
+	
+	@Query("SELECT st from Mark m right join m.student st "
+			+ "group by st.id having score(m.score) < :nScores")
+	List<Student> getStudentsHavingScoresLess(int nScores);	
 
 }

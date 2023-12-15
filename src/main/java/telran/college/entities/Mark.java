@@ -16,5 +16,10 @@ public class Mark {
 	Subject subject;
 	@Column(nullable = false)
 	int score;
+	public Mark(Student student, Subject subject, int score) {
+		this.student = student;
+		this.subject = subject;
+		this.score = score;
+	}
 	
 }

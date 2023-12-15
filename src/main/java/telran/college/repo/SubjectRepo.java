@@ -14,5 +14,7 @@ public interface SubjectRepo extends JpaRepository<Subject, Long> {
 			+ "group by lecturer.name "
 			+ "order by sum(hours) desc limit :nLecturers")
 	List<LecturerHours> getLecturersHiScoreHours(int nLecturers);
+	
+	List<Subject> findByLecturerId(long id);
 
 }
