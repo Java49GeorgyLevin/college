@@ -17,7 +17,8 @@ public interface StudentRepo extends JpaRepository<Student, Long> {
 	
 	
 	@Query("SELECT st from Mark m right join m.student st "
-			+ "group by st.id having score(m.score) < :nScores")
+			+ "group by st.id having count(m.score) < :nScores "
+			+ "order by st.id")
 	List<Student> getStudentsHavingScoresLess(int nScores);	
 
 }

@@ -2,6 +2,9 @@ package telran.college.service;
 
 import java.util.List;
 import telran.college.dto.*;
+import telran.college.entities.Lecturer;
+import telran.college.entities.Student;
+import telran.college.entities.Subject;
 
 public interface CollegeService {
 	List<String> bestStudentsSubjectType(String type, int nStudents);
@@ -20,5 +23,8 @@ public interface CollegeService {
 	PersonDto deleteLecturer(long id);
 	SubjectDto deleteSubject(long id);
 	List<PersonDto> deleteStudentsHavingScoresLess(int nScores);
+	Student getStudentById(long id);
+	Lecturer getLecturerById(long id);
+	Subject getSubjectById(long id);
 	
 }

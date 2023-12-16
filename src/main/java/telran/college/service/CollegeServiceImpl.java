@@ -164,5 +164,26 @@ public class CollegeServiceImpl implements CollegeService {
 		});
 		return students.stream().map(s -> s.build()).toList();
 	}
+	
+	@Override
+	public Student getStudentById(long id) {
+		return studentRepo.findById(id)
+				.orElse(null);
+		
+	}
+	@Override
+	public Lecturer getLecturerById(long id) {
+		return lecturerRepo.findById(id)
+				.orElse(null);
+		
+	}
+	@Override
+	public Subject getSubjectById(long id) {
+		return subjectRepo.findById(id)
+				.orElse(null);
+		
+	}
+
+
 
 }
