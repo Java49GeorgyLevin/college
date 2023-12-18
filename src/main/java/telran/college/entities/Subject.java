@@ -1,11 +1,14 @@
 package telran.college.entities;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import telran.college.dto.SubjectDto;
 import telran.college.dto.SubjectType;
 @Entity
-@Table(name="subjects")
+@Table(name="subjects", indexes = {@Index(columnList = "lecturer_id")})
 @Getter
 @NoArgsConstructor
 public class Subject {
@@ -16,6 +19,7 @@ public class Subject {
 	int hours;
 	@ManyToOne
 	@JoinColumn(name = "lecturer_id", nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	Lecturer lecturer;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

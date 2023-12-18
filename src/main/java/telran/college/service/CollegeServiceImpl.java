@@ -76,6 +76,10 @@ public class CollegeServiceImpl implements CollegeService {
 	@Override
 	@Transactional(readOnly = false)
 	public SubjectDto addSubject(SubjectDto subjectDto) {
+		if(subjectRepo.existsById(subjectDto.id())) {
+			throw new IllegalStateException("subject " + subjectDto.id() + " already exists");
+		}
+		
 		Lecturer lecturer = null;
 		Long lecturerId = subjectDto.lecturerId();
 		if(lecturerId != null) {
@@ -132,9 +136,7 @@ public class CollegeServiceImpl implements CollegeService {
 		Lecturer lecturer = lecturerRepo.findById(id)
 				.orElseThrow(() -> new NotFoundException(id + " not exists"));
 		
-		List<Subject> subjects = subjectRepo.findByLecturerId(id);
-		subjects.forEach(s -> s.setLecturer(null));
-		lecturerRepo.deleteById(id);
+		lecturerRepo.delete(lecturer);
 		return lecturer.build();
 	}
 
@@ -145,9 +147,7 @@ public class CollegeServiceImpl implements CollegeService {
 	public SubjectDto deleteSubject(long id) {
 		Subject subject = subjectRepo.findById(id)
 				.orElseThrow(() -> new NotFoundException(id + " not exists"));
-		List<Mark> marks = markRepo.findBySubjectId(id);
-		marks.forEach(m -> markRepo.delete(m));
-		subjectRepo.deleteById(id);
+		subjectRepo.delete(subject);
 		return subject.build();
 	}
 
@@ -155,35 +155,12 @@ public class CollegeServiceImpl implements CollegeService {
 	@Transactional(readOnly = false)
 	public List<PersonDto> deleteStudentsHavingScoresLess(int nScores) {
 		List<Student> students = studentRepo.getStudentsHavingScoresLess(nScores);		
-				
-		students.forEach(s -> {
-			long id = s.getId();
-			List<Mark> marks = markRepo.findByStudentId(id);
-			marks.forEach(m -> markRepo.delete(m));			
-			studentRepo.deleteById(id);
-		});
-		return students.stream().map(s -> s.build()).toList();
+		students.forEach(this::deleteStudent);
+		return students.stream().map(Student::build).toList();
 	}
 	
-	@Override
-	public Student getStudentById(long id) {
-		return studentRepo.findById(id)
-				.orElse(null);
-		
+	void deleteStudent(Student student) {
+		studentRepo.delete(student);
 	}
-	@Override
-	public Lecturer getLecturerById(long id) {
-		return lecturerRepo.findById(id)
-				.orElse(null);
-		
-	}
-	@Override
-	public Subject getSubjectById(long id) {
-		return subjectRepo.findById(id)
-				.orElse(null);
-		
-	}
-
-
 
 }
