@@ -1,9 +1,13 @@
 package telran.college.service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import telran.college.dto.*;
 import telran.college.entities.*;
@@ -11,44 +15,52 @@ import telran.college.repo.*;
 import telran.exceptions.NotFoundException;
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly=true)
+
 public class CollegeServiceImpl implements CollegeService {
 	final StudentRepo studentRepo;
 	final LecturerRepo lecturerRepo;
 	final SubjectRepo subjectRepo;
 	final MarkRepo markRepo;
+	final EntityManager em;
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<String> bestStudentsSubjectType(String type, int nStudents) {
 		return markRepo.findBestStudentsSubjectType(SubjectType.valueOf(type), nStudents);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<StudentMark> studentsAvgMarks() {		
 		return markRepo.getStudentsAvgMarks();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<LecturerHours> lecturersHiScoreHours(int nLecturers) {
 		return subjectRepo.getLecturersHiScoreHours(nLecturers);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<NameCity> nameCityScoresLess(int score) {
 		return markRepo.getNameCityScoresLess(score);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<NameCity> namesCitiesByMonth(int month) {
 		return studentRepo.getNamesCitiesByMonth(month);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<SubjectNameScore> subjectsScoresbyStudentName(String nameStudent) {
 		return markRepo.findByStudentName(nameStudent);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<NamePhone> lecturersNamesPhonesByCity(String city) {
 		return lecturerRepo.findByCity(city);
 	}
@@ -161,6 +173,50 @@ public class CollegeServiceImpl implements CollegeService {
 	
 	void deleteStudent(Student student) {
 		studentRepo.delete(student);
+	}
+
+	@Override
+	public List<String> anyQuery(QueryDto queryDto) {
+		String queryStr = queryDto.query();
+		List<String> res = null;
+		Query query;
+		try {
+			query = queryDto.queryType() == QueryType.SQL ?
+					em.createNativeQuery(queryStr) : em.createQuery(queryStr);
+			res = getResult(query);
+		} catch (Throwable e) {
+			res = List.of(e.getMessage());
+		}
+		return res;
+	}
+	@SuppressWarnings("unchecked")
+	private List<String> getResult(Query query) {
+		List<String> res = Collections.emptyList();
+		List<?> resultList = Collections.emptyList();
+		try {
+			resultList = query.getResultList();
+		} catch (Exception e) {
+			res = List.of(e.getMessage());
+		}
+		
+		if (!resultList.isEmpty()) {
+			res = resultList.get(0).getClass().isArray() ?
+					listObjectArraysProcessing((List<Object[]>)resultList) : 
+						listObjectsProcessing(resultList);
+		}
+		return res;
+	}
+	private List<String> listObjectsProcessing(List<?> resultList) {
+		
+		try {
+			return resultList.stream().map(Object::toString).toList();
+		} catch (Exception e) {
+			return List.of(e.getMessage());
+		}
+	}
+	private List<String> listObjectArraysProcessing(List<Object[]> resultList) {
+		
+		return resultList.stream().map(Arrays::deepToString).toList();
 	}
 
 }

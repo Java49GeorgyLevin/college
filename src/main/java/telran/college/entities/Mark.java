@@ -26,5 +26,9 @@ public class Mark {
 		this.subject = subject;
 		this.score = score;
 	}
+	@Override
+	public String toString() {
+		return "Mark [id=" + id + ", student=" + student.name + ", subject=" + subject.name + ", score=" + score + "]";
+	}
 	
 }
